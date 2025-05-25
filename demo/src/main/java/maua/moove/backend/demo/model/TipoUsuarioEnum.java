@@ -6,7 +6,7 @@
 package maua.moove.backend.demo.model;
 
 
-public enum TipoUsuario {
+public enum TipoUsuarioEnum {
     aluno,
     admin
 }

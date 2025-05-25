@@ -4,6 +4,7 @@ import maua.moove.backend.demo.dto.JwtResponse;
 import maua.moove.backend.demo.dto.LoginRequest;
 import maua.moove.backend.demo.dto.MessageResponse;
 import maua.moove.backend.demo.dto.RegisterRequest;
+import maua.moove.backend.demo.model.TipoUsuarioEnum;
 import maua.moove.backend.demo.model.User;
 import maua.moove.backend.demo.repository.UserRepository;
 import maua.moove.backend.demo.security.JwtTokenUtil;
@@ -59,25 +60,34 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@RequestBody RegisterRequest registerRequest) {
-        if (userRepository.existsByEmail(registerRequest.getEmail())) {
-            return ResponseEntity.badRequest()
-                    .body(new MessageResponse("Erro: Email já está em uso!"));
+        public ResponseEntity<?> registerUser(@RequestBody RegisterRequest registerRequest) {
+            if (userRepository.existsByEmail(registerRequest.getEmail())) {
+                return ResponseEntity.badRequest()
+                        .body(new MessageResponse("Erro: Email já está em uso!"));
+            }
+
+            // Verificar se as senhas coincidem
+            if (!registerRequest.getPassword().equals(registerRequest.getConfirmPassword())) {
+                return ResponseEntity.badRequest()
+                        .body(new MessageResponse("Erro: As senhas não coincidem!"));
+            }
+
+            // Criar nova conta de usuário
+            User user = new User();
+            user.setEmail(registerRequest.getEmail());
+            user.setPassword(encoder.encode(registerRequest.getPassword()));
+            
+            // ADICIONE ESTA LINHA PARA RESOLVER O PROBLEMA
+            user.setName(registerRequest.getEmail().split("@")[0]); // Usa parte do email como nome
+            
+            user.setUsername(registerRequest.getEmail());
+            user.setActive(true);
+            
+            // Se você manteve a coluna tipo_usuario, defina um valor padrão
+            // user.setTipoUsuario("aluno");
+            
+            userRepository.save(user);
+
+            return ResponseEntity.ok(new MessageResponse("Usuário registrado com sucesso!"));
         }
-
-        // Verificar se as senhas coincidem
-        if (!registerRequest.getPassword().equals(registerRequest.getConfirmPassword())) {
-            return ResponseEntity.badRequest()
-                    .body(new MessageResponse("Erro: As senhas não coincidem!"));
-        }
-
-        // Criar nova conta de usuário
-        User user = new User();
-        user.setEmail(registerRequest.getEmail());
-        user.setPassword(encoder.encode(registerRequest.getPassword()));
-
-        userRepository.save(user);
-
-        return ResponseEntity.ok(new MessageResponse("Usuário registrado com sucesso!"));
-    }
 }

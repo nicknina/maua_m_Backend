@@ -1,7 +1,7 @@
 package maua.moove.backend.demo.service;
 
 
-import maua.moove.backend.demo.model.TipoUsuario;
+import maua.moove.backend.demo.model.TipoUsuarioEnum;
 import maua.moove.backend.demo.model.User;
 import maua.moove.backend.demo.repository.UserRepository;
 
@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import maua.moove.backend.demo.model.TipoUsuarioEnum;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
@@ -30,7 +32,7 @@ public UserDetails loadUserByUsername(String email) throws UsernameNotFoundExcep
     List<SimpleGrantedAuthority> authorities = new ArrayList<>();
     
     // Adicionar autoridade baseada no tipo de usuário
-    if (user.getTipoUsuario() == TipoUsuario.admin) {
+    if (user.getTipoUsuario() == TipoUsuarioEnum.admin) {
         authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
     } else {
         authorities.add(new SimpleGrantedAuthority("ROLE_ALUNO"));

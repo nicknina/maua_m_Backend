@@ -13,6 +13,9 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)  // Esta anotação ou uma similar indica que o campo não pode ser nulo
+    private String name;
+
     @Column(nullable = false, unique = true)
     private String email;
 
@@ -24,7 +27,7 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "tipo_usuario")
-    private TipoUsuario tipoUsuario;
+    private TipoUsuarioEnum tipoUsuario;
 
     @Column(name = "active")
     private boolean active = true;
@@ -62,12 +65,11 @@ public class User {
         this.username = username;
     }
 
-    // Getters e setters para tipoUsuario
-    public TipoUsuario getTipoUsuario() {
+    public TipoUsuarioEnum getTipoUsuario() {
         return tipoUsuario;
     }
     
-    public void setTipoUsuario(TipoUsuario tipoUsuario) {
+    public void setTipoUsuario(TipoUsuarioEnum tipoUsuario) {
         this.tipoUsuario = tipoUsuario;
     }
     
@@ -78,6 +80,14 @@ public class User {
     
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+        public String getName() {
+        return name;
+    }
+    
+    public void setName(String name) {
+        this.name = name;
     }
 
 }

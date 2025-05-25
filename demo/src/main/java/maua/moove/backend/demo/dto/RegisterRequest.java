@@ -1,6 +1,7 @@
 package maua.moove.backend.demo.dto;
 
 public class RegisterRequest {
+    private String name;      
     private String email;
     private String password;
     private String confirmPassword;
@@ -28,5 +29,13 @@ public class RegisterRequest {
     
     public void setConfirmPassword(String confirmPassword) {
         this.confirmPassword = confirmPassword;
+    }
+
+        public String getName() {
+        return name;
+    }
+    
+    public void setName(String name) {
+        this.name = name;
     }
 }
