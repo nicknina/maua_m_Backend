@@ -10,4 +10,5 @@ import maua.moove.backend.demo.model.Van;
 @Repository
 public interface VanRepository extends JpaRepository<Van, Long> {
     List<Van> findByAtivo(Boolean ativo);
+    long countByAtivo(boolean ativo);
 }

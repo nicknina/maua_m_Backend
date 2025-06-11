@@ -10,7 +10,6 @@ public class HorarioDTO {
     private String diaDaSemana; // segunda, terça, etc.
     private String placa; // informação extra
     
-    // Getters e Setters
     
     public Long getId() {
         return id;

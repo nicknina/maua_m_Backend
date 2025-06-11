@@ -1,6 +1,8 @@
 package maua.moove.backend.demo.config;
 
-import maua.moove.backend.demo.security.JwtRequestFilter;
+import java.util.Arrays;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,8 +20,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import java.util.Arrays;
-import java.util.List;
+import maua.moove.backend.demo.security.JwtRequestFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -31,27 +32,28 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                // Habilita o CORS usando a configuração definida no bean 'corsConfigurationSource'
+                
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-                // Desabilita a proteção CSRF, comum em APIs stateless
+                
                 .csrf(AbstractHttpConfigurer::disable)
-                // Configura as regras de autorização para as requisições
+                
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll()
-                        // Permite acesso público aos endpoints do WebSocket para a conexão inicial
+                      
                         .requestMatchers("/ws/**").permitAll()
                         .requestMatchers("/api/notifications/**").permitAll() 
                         .requestMatchers("/api/vans/**").permitAll()
                         .requestMatchers("/api/vans/**").permitAll()
                         .requestMatchers("/api/horarios/**").permitAll()
-                        // Exige autenticação para qualquer outra requisição
+                        .requestMatchers("/api/dashboard/**").permitAll()
+                        
                         .anyRequest().authenticated()
                 )
-                // Define a política de gerenciamento de sessão como STATELESS (sem sessão)
+              
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
-                // Adiciona o filtro JWT para processar o token em cada requisição
+                
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
@@ -81,7 +83,7 @@ public class SecurityConfig {
         
         configuration.setAllowedOrigins(allowedOrigins);
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(Arrays.asList("*")); // Permite todos os headers para simplicidade
+        configuration.setAllowedHeaders(Arrays.asList("*")); 
         configuration.setAllowCredentials(true);
         configuration.setMaxAge(3600L);
         

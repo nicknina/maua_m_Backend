@@ -77,15 +77,12 @@ public class AuthController {
             user.setEmail(registerRequest.getEmail());
             user.setPassword(encoder.encode(registerRequest.getPassword()));
             
-            // ADICIONE ESTA LINHA PARA RESOLVER O PROBLEMA
-            user.setName(registerRequest.getEmail().split("@")[0]); // Usa parte do email como nome
+
+            user.setName(registerRequest.getEmail().split("@")[0]);
             
             user.setUsername(registerRequest.getEmail());
             user.setActive(true);
-            
-            // Se você manteve a coluna tipo_usuario, defina um valor padrão
-            // user.setTipoUsuario("aluno");
-            
+
             userRepository.save(user);
 
             return ResponseEntity.ok(new MessageResponse("Usuário registrado com sucesso!"));

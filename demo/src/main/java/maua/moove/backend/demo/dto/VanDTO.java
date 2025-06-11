@@ -7,7 +7,7 @@ public class VanDTO {
     private Integer capacidade;
     private Boolean ativo;
     
-    // Getters e Setters
+
     
     public Long getId() {
         return id;

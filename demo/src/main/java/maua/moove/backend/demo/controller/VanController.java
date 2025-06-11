@@ -91,7 +91,7 @@ public class VanController {
             return ResponseEntity.notFound().build();
         }
         
-        // Soft delete - apenas marcamos como inativo
+        
         Van van = vanRepository.findById(id).orElseThrow();
         van.setAtivo(false);
         vanRepository.save(van);

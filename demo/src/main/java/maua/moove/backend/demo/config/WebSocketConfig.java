@@ -20,8 +20,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         // Registra o endpoint "/ws" para a conexão WebSocket
         registry.addEndpoint("/ws")
-                // Permite conexões de QUALQUER origem. Ideal para desenvolvimento.
-                // Em produção, você pode restringir para os domínios específicos.
+                
                 .setAllowedOriginPatterns("*") 
                 .withSockJS();
     }
